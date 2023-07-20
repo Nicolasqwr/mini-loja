@@ -4,12 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+        #produtos,
+        #Carrinho{
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2%;
+            display: flex;
+        }
+
+        .produto-single{
+            width: 33.3%;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
+
+    <h2>Vitrine</h2>
     <div id="produtos">
 
     </div><!--produtos-->
-
+    
+    <h2>Carrinho</h2>
     <div id="carrinho">
 
     </div> <!--carrinho-->
@@ -38,12 +56,46 @@
             inicializarLoja = () => {
                 var containerProdutos = document.getElementById('produtos');
                 items.map((val) => {
-                    console.log(val.nome);
+                    containerProdutos.innerHTML+=`
+                    <div class="produto-single">
+                        <img src="`+val.img+`" />
+                        <p>`+val.nome+`</p> 
+                        <a key="`+val.id+`" href="#">Adicionar ao Carrinho<a/>
+                    </div>
+                    
+                    `;
 
                 })
             }
 
             inicializarLoja(); 
+
+
+            atualizarCarrinho = () => {
+                var containerCarrinho = document.getElementById('Carrinho');
+                items.map((val) => {
+                    if(val.quantidade > 0){
+                    containerCarrinho.innerHTML+=`
+                    
+                    <p>`+val.nome+` | Quantidade:</p>
+                    <hr>
+                    
+                    `;
+                    }
+                })
+            }
+
+
+            var links = document.getElementsByTagName('a')
+
+            for(var i = 0; i < links.length; i++){
+                links[i].addEventListener("click", function(){
+                    let key = this.getAttribute('key');
+                    items[key].quantidade++;
+                    atualizarCarrinho();
+                    return false;
+                })
+            }
 
 
     </script>
